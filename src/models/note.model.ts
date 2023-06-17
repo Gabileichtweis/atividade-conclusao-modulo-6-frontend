@@ -6,18 +6,25 @@ export enum NoteType {
 export interface Note {
   id: string;
   title: number;
-  Description: string;
+  description: string;
   type: NoteType;
+}
+
+export interface CreateNoteProps {
+  email: string;
+  title: string;
+  description: string;
+  type?: NoteType;
 }
 
 export interface DeleteNotesProps {
   email: string;
-  idNote: string;
+  id: string;
 }
 
 export interface UpdateNotesProps {
   email: string;
-  idNote: string;
+  id: string;
   title?: string;
   description?: string;
   type?: NoteType;
