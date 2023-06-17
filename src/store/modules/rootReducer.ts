@@ -1,5 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import notesSlice from './Notes/notes.slice';
+import UserLogedSlice from './UserLoged/UserLoged.slice';
 
-const rootReducer = combineReducers({});
+const combinedReducers = combineReducers({
+  note: notesSlice,
+  userLoged: UserLogedSlice,
+});
 
-export default rootReducer;
+export default combinedReducers;
