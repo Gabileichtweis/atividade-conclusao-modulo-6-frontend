@@ -1,7 +1,6 @@
 import { Grid, Typography, Button, Divider, Fab } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 import { useDispatch } from 'react-redux';
 import { Note, NoteType } from '../models/note.model';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +8,8 @@ import { removeUserLoged } from '../store/modules/UserLoged/UserLoged.slice';
 import { NotesList } from '../components/List/Index';
 import { Add } from '@mui/icons-material';
 import { Modal } from '../components/Modal/Index';
+import { RootState } from '../store/modules';
+import { listNotesAction } from '../store/modules/Notes/notes.slice';
 
 const Notes: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,15 @@ const Notes: React.FC = () => {
 
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(
+      listNotesAction({
+        email: userLoged.email,
+        type: NoteType['overall'],
+      })
+    );
+  }, []);
 
   const closeModal = () => {
     setOpen(false);
@@ -75,15 +85,11 @@ const Notes: React.FC = () => {
               alignItems={'flex-start'}
             >
               <Grid container>
-                {notes
-                  .filter(
-                    (note: { email: string }) => note.email === userLoged.email
-                  )
-                  .map((note: Note) => (
-                    <Grid item key={note.id} xs={12}>
-                      <NotesList note={note} />
-                    </Grid>
-                  ))}
+                {notes.map((note: Note) => (
+                  <Grid item key={note.id} xs={12}>
+                    <NotesList note={note} />
+                  </Grid>
+                ))}
               </Grid>
             </Grid>
           </Grid>

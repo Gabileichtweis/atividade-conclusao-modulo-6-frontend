@@ -12,8 +12,9 @@ export const listNotesAction = createAsyncThunk(
   'notes/list',
   async (props: ListNotesProps) => {
     const result = await ApiService.listNotes(props);
-
     return result;
+
+    //Objeto com ok, message, data
   }
 );
 
@@ -21,7 +22,6 @@ export const createNoteAction = createAsyncThunk(
   'notes/create',
   async (props: CreateNoteProps) => {
     const result = await ApiService.createNote(props);
-
     return result;
   }
 );
@@ -30,7 +30,6 @@ export const deleteNoteAction = createAsyncThunk(
   'notes/delete',
   async (props: DeleteNotesProps) => {
     const result = await ApiService.deleteNote(props);
-
     return result;
   }
 );
@@ -39,18 +38,17 @@ export const updateNotesAction = createAsyncThunk(
   'notes/update',
   async (props: UpdateNotesProps) => {
     const result = await ApiService.updateNotes(props);
-
     return result;
   }
 );
 
-export const notesSlice = createSlice({
+const notesSlice = createSlice({
   name: 'notes',
   initialState: [] as Note[],
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(listNotesAction.fulfilled, (_, action) => {
-      return action.payload.data?.notes ?? [];
+      return action.payload.data ?? [];
     });
 
     builder.addCase(deleteNoteAction.fulfilled, (_, action) => {

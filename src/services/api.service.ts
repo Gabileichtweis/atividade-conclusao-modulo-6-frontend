@@ -5,6 +5,7 @@ import {
   ListNotesProps,
   UpdateNotesProps,
 } from '../models/note.model';
+import { LoginProps } from '../models/user.model';
 
 const api = axios.create({
   baseURL: 'http://localhost:3333',
@@ -17,6 +18,16 @@ interface ApiResponse {
 }
 
 export class ApiService {
+  public static async login(props: LoginProps): Promise<ApiResponse> {
+    try {
+      const result = await api.post('/users/login', props);
+      return result.data;
+    } catch (error: any) {
+      console.log(error.response.data);
+      return error.response.data;
+    }
+  }
+
   public static async listNotes(props: ListNotesProps): Promise<ApiResponse> {
     try {
       const result = await api.get(

@@ -14,12 +14,12 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import {
   createNoteAction,
   deleteNoteAction,
   updateNotesAction,
 } from '../../store/modules/Notes/notes.slice';
+import { RootState } from '../../store/modules';
 
 interface ModalProps {
   open: boolean;
@@ -37,7 +37,7 @@ export const Modal: React.FC<ModalProps> = ({
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
 
   const userLoged = useSelector((state: RootState) => state.userLoged);
 
@@ -49,12 +49,13 @@ export const Modal: React.FC<ModalProps> = ({
   }, [note, action]);
 
   const save = () => {
-    switch (action) {
+    alert('funcionalidade em fase de testes');
+    /* switch (action) {
       case 'create':
         dispatch(
           createNoteAction({
-            /* id está com erro dizendo que não fazia parte do escopo e não havia sido inicializado.
-            Inicializei ele e o erro sumiu, porém, o id é gerado na api então não poderia ser inicializado assim '' */
+             id está com erro dizendo que não fazia parte do escopo e não havia sido inicializado.
+            Inicializei ele e o erro sumiu, porém, o id é gerado na api então não poderia ser inicializado assim ''
             email: userLoged.email,
             id: '',
             title,
@@ -88,7 +89,9 @@ export const Modal: React.FC<ModalProps> = ({
         }
         break;
       default:
-    }
+    }*/
+
+    clear();
     closeModal();
   };
 

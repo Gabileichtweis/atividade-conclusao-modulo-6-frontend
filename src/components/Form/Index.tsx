@@ -1,5 +1,9 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../store/modules/Users/user.slice';
+import { useNavigate } from 'react-router-dom';
+import { setUserLoged } from '../../store/modules/UserLoged/UserLoged.slice';
 
 interface FormProps {
   type: 'login' | 'singUp';
@@ -10,8 +14,22 @@ const Form: React.FC<FormProps> = ({ type }) => {
   const [password, setPassword] = useState('');
   const [repitedPassword, setRepitedPassword] = useState('');
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch<any>();
+
   const login = (ev: React.FormEvent<HTMLFormElement>) => {
-    //Lógica de logar
+    ev.preventDefault();
+
+    /*     const logedUser = {
+      email,
+      password,
+    };
+
+    console.log(logedUser); */
+
+    dispatch(loginAction({ email, password }));
+    dispatch(setUserLoged({ email }));
+    navigate('/recados');
   };
 
   const singUp = (ev: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +37,8 @@ const Form: React.FC<FormProps> = ({ type }) => {
   };
 
   const clearImputs = () => {
-    //lógica limpar campos
+    setEmail('');
+    setPassword('');
   };
   return (
     <Box component={'form'} onSubmit={type === 'login' ? login : singUp}>
