@@ -1,9 +1,11 @@
 import { Box, Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../../store/modules/Users/user.slice';
 import { useNavigate } from 'react-router-dom';
 import { setUserLoged } from '../../store/modules/UserLoged/UserLoged.slice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/modules';
 
 interface FormProps {
   type: 'login' | 'singUp';
@@ -14,22 +16,30 @@ const Form: React.FC<FormProps> = ({ type }) => {
   const [password, setPassword] = useState('');
   const [repitedPassword, setRepitedPassword] = useState('');
 
+  const user = useSelector((state: RootState) => state.user);
+
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    if (user.email) {
+      navigate('/recados');
+      return;
+    }
+  });
 
   const login = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
-    /*     const logedUser = {
+    const logedUser = {
       email,
       password,
     };
 
-    console.log(logedUser); */
+    console.log(logedUser);
 
-    dispatch(loginAction({ email, password }));
-    dispatch(setUserLoged({ email }));
-    navigate('/recados');
+    dispatch(loginAction(logedUser));
+    dispatch(setUserLoged({ email: logedUser.email }));
   };
 
   const singUp = (ev: React.FormEvent<HTMLFormElement>) => {
