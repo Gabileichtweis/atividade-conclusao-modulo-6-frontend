@@ -36,8 +36,6 @@ const Form: React.FC<FormProps> = ({ type }) => {
       password,
     };
 
-    console.log(logedUser);
-
     dispatch(loginAction(logedUser));
     dispatch(setUserLoged({ email: logedUser.email }));
   };

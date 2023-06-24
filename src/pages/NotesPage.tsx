@@ -29,13 +29,23 @@ const Notes: React.FC = () => {
     );
   }, []);
 
+  const listNotes = (type: NoteType) => {
+    dispatch(
+      listNotesAction({
+        email: userLoged.email,
+        type,
+      })
+    );
+  };
+
   const closeModal = () => {
     setOpen(false);
   };
 
   const exit = () => {
-    dispatch(removeUserLoged());
-    navigate('/');
+    alert('Funcionalidade ainda não disponível');
+    /* dispatch(removeUserLoged());
+    navigate('/'); */
   };
 
   return (
@@ -72,8 +82,13 @@ const Notes: React.FC = () => {
               <Typography variant="h3" color={'primary'}>
                 Recados
               </Typography>
-              <Button>ARQUIVADOS</Button>
-              <Button>SAIR</Button>
+              <Button onClick={() => listNotes(NoteType.archived)}>
+                ARQUIVADOS
+              </Button>
+              <Button onClick={() => listNotes(NoteType.overall)}>
+                DESARQUIVADAS
+              </Button>
+              <Button onClick={exit}>SAIR</Button>
             </Grid>
             <Divider />
             <Grid
@@ -98,7 +113,7 @@ const Notes: React.FC = () => {
 
       <Fab
         color="primary"
-        aria-label="Adicionar novo contato"
+        aria-label="Adicionar novo recado"
         sx={{ position: 'fixed', right: '30px', bottom: '30px' }}
         onClick={() => setOpen(true)}
       >

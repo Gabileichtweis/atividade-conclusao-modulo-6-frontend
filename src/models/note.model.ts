@@ -28,6 +28,7 @@ export interface UpdateNotesProps {
   id: string;
   title?: string;
   description?: string;
+  type?: NoteType;
 }
 
 export interface ListNotesProps {

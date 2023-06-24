@@ -4,6 +4,7 @@ import {
   DeleteNotesProps,
   ListNotesProps,
   Note,
+  NoteType,
   UpdateNotesProps,
 } from '../../../models/note.model';
 import { ApiService } from '../../../services/api.service';
@@ -38,6 +39,12 @@ export const updateNotesAction = createAsyncThunk(
   'notes/update',
   async (props: UpdateNotesProps) => {
     const result = await ApiService.updateNotes(props);
+
+    if (result.ok && result.data) {
+      const filter = NoteType.overall;
+
+      result.data = result.data.filter((note: any) => note.type === filter);
+    }
     return result;
   }
 );

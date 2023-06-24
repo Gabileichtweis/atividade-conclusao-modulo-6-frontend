@@ -10,6 +10,12 @@ import {
 } from '@mui/material';
 import { Delete, Edit, Folder, FolderOff } from '@mui/icons-material';
 import { Modal } from '../Modal/Index';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  listNotesAction,
+  updateNotesAction,
+} from '../../store/modules/Notes/notes.slice';
+import { RootState } from '../../store/modules';
 
 interface NotesProps {
   note: Note;
@@ -20,13 +26,29 @@ export const NotesList: React.FC<NotesProps> = ({ note }) => {
   const [action, setAction] = useState<Action>('update');
   const [type, setType] = useState<NoteType>(note.type);
 
+  const userLoged = useSelector((state: RootState) => state.userLoged);
+  const notes = useSelector((state: RootState) => state.notes);
+
+  const dispatch = useDispatch<any>();
+
   const openModal = (action: Action) => {
     setAction(action);
     setOpen(true);
   };
 
-  const changeType = (type: NoteType) => {
-    //Lógica mudar de arquivado para desarquivado
+  const changeType = (id: string, oldType: NoteType) => {
+    const type =
+      oldType == NoteType.overall ? NoteType.archived : NoteType.overall;
+
+    dispatch(
+      updateNotesAction({
+        email: userLoged.email,
+        id,
+        type,
+      })
+    );
+
+    dispatch(listNotesAction({ email: userLoged.email, type: note.type }));
   };
 
   return (
@@ -53,7 +75,7 @@ export const NotesList: React.FC<NotesProps> = ({ note }) => {
             aria-label={
               note.type === 'O' ? 'Arquivar recado' : 'Desarquivar Recado'
             }
-            onClick={() => changeType(note.type)}
+            onClick={() => changeType(note.id, note.type)}
           >
             {note.type === 'O' ? <Folder /> : <FolderOff />}
           </IconButton>
