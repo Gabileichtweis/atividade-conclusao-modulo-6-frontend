@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import {
   createNoteAction,
   deleteNoteAction,
+  listNotesAction,
   updateNotesAction,
 } from '../../store/modules/Notes/notes.slice';
 import { RootState } from '../../store/modules';
@@ -37,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   const userLoged = useSelector((state: RootState) => state.userLoged);
 
@@ -49,47 +50,26 @@ export const Modal: React.FC<ModalProps> = ({
   }, [note, action]);
 
   const save = () => {
-    alert('funcionalidade em fase de testes');
-    /* switch (action) {
-      case 'create':
-        dispatch(
-          createNoteAction({
-             id está com erro dizendo que não fazia parte do escopo e não havia sido inicializado.
-            Inicializei ele e o erro sumiu, porém, o id é gerado na api então não poderia ser inicializado assim ''
-            email: userLoged.email,
-            id: '',
-            title,
-            description,
-            type: NoteType.overall,
-          })
-        );
-        clear();
-        break;
+    /* alert('funcionalidade em fase de testes'); */
+    if (action === 'create') {
+      const newNote = {
+        email: userLoged.email,
+        title: title,
+        description: description,
+        type: NoteType.overall,
+      };
 
-      case 'update':
-        if (note) {
-          dispatch(
-            updateNotesAction({
-              email: userLoged.email,
-              id: '',
-              description,
-              title,
-            })
-          );
-        }
-        break;
-      case 'delete':
-        if (note) {
-          dispatch(
-            deleteNoteAction({
-              email: userLoged.email,
-              id: '',
-            })
-          );
-        }
-        break;
-      default:
-    }*/
+      console.log(newNote);
+
+      dispatch(createNoteAction(newNote));
+      dispatch(
+        listNotesAction({ email: userLoged.email, type: NoteType.overall })
+      );
+    }
+
+    /* if(action === 'delete'){
+
+    } */
 
     clear();
     closeModal();

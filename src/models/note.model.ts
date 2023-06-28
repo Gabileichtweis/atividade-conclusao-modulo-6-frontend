@@ -12,7 +12,6 @@ export interface Note {
 
 export interface CreateNoteProps {
   email: string;
-  id: string;
   title: string;
   description: string;
   type: NoteType;

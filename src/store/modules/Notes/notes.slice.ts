@@ -58,6 +58,10 @@ const notesSlice = createSlice({
       return action.payload.data ?? [];
     });
 
+    builder.addCase(createNoteAction.fulfilled, (_, action) => {
+      return action.payload.data.note ?? [];
+    });
+
     builder.addCase(deleteNoteAction.fulfilled, (_, action) => {
       return action.payload.data ?? [];
     });

@@ -42,10 +42,16 @@ export class ApiService {
 
   public static async createNote(props: CreateNoteProps): Promise<ApiResponse> {
     try {
-      const result = await api.post(`/users/${props.email}/notes/`);
+      const result = await api.post(`/users/${props.email}/notes/`, {
+        email: props.email,
+        title: props.title,
+        description: props.description,
+        type: props.type,
+      });
       return result.data;
     } catch (error: any) {
       console.log(error.response.data);
+      console.log('ta caindo aqui');
       return error.response.data;
     }
   }
