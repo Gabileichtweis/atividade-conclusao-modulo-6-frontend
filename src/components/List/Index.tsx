@@ -12,6 +12,7 @@ import { Delete, Edit, Folder, FolderOff } from '@mui/icons-material';
 import { Modal } from '../Modal/Index';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  deleteNoteAction,
   listNotesAction,
   updateNotesAction,
 } from '../../store/modules/Notes/notes.slice';
@@ -24,11 +25,8 @@ interface NotesProps {
 export const NotesList: React.FC<NotesProps> = ({ note }) => {
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState<Action>('update');
-  const [type, setType] = useState<NoteType>(note.type);
 
   const userLoged = useSelector((state: RootState) => state.userLoged);
-  const notes = useSelector((state: RootState) => state.notes);
-
   const dispatch = useDispatch<any>();
 
   const openModal = (action: Action) => {
@@ -51,6 +49,13 @@ export const NotesList: React.FC<NotesProps> = ({ note }) => {
     dispatch(listNotesAction({ email: userLoged.email, type: note.type }));
   };
 
+  const deleteNote = (id: string) => {
+    dispatch(deleteNoteAction({ email: userLoged.email, id: id }));
+    dispatch(
+      listNotesAction({ email: userLoged.email, type: NoteType.overall })
+    );
+  };
+
   return (
     <>
       <List>
@@ -66,7 +71,7 @@ export const NotesList: React.FC<NotesProps> = ({ note }) => {
           <IconButton
             color="primary"
             aria-label="Deletar recado"
-            onClick={() => openModal('delete')}
+            onClick={() => deleteNote(note.id)}
           >
             <Delete />
           </IconButton>

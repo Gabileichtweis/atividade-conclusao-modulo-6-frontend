@@ -37,6 +37,7 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [id, setId] = useState('');
 
   const dispatch = useDispatch<any>();
 
@@ -59,16 +60,17 @@ export const Modal: React.FC<ModalProps> = ({
         type: NoteType.overall,
       };
 
-      console.log(newNote);
-
       dispatch(createNoteAction(newNote));
       dispatch(
         listNotesAction({ email: userLoged.email, type: NoteType.overall })
       );
     }
 
-    /* if(action === 'delete'){
-
+    /* if (action === 'delete') {
+      dispatch(deleteNoteAction({ email: userLoged.email, id: id }));
+      dispatch(
+        listNotesAction({ email: userLoged.email, type: NoteType.overall })
+      );
     } */
 
     clear();
@@ -90,14 +92,8 @@ export const Modal: React.FC<ModalProps> = ({
       <DialogTitle id="alert-dialog-title">
         {action === 'create' && 'Criar recado'}
         {action === 'update' && 'Atualizar recado'}
-        {action === 'delete' && 'Deletar recado'}
       </DialogTitle>
       <DialogContent>
-        {action === 'delete' && (
-          <DialogContentText id="alert-dialog-description">
-            Tem certeza que deseja remover esse recado? A ação é irreversível.
-          </DialogContentText>
-        )}
         {action !== 'delete' && (
           <Grid container spacing={2} marginTop={1}>
             <Grid item xs={12}>
